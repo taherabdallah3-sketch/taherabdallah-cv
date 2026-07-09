@@ -219,31 +219,6 @@
   footer span b{color:var(--accent);font-weight:500}
 
 
-  /* edit mode */
-  .editbar{
-    position:fixed;bottom:20px;right:20px;z-index:20;
-    display:flex;gap:8px;
-  }
-  .editbtn{
-    font-family:'IBM Plex Mono',monospace;font-size:14px;
-    background:var(--ink);color:#fff;border:none;border-radius:99px;
-    padding:13px 22px;cursor:pointer;
-    box-shadow:0 6px 20px rgba(30,29,26,.25);
-    transition:transform .15s,background .15s;
-  }
-  .editbtn:hover{transform:translateY(-2px)}
-  .editbtn.active{background:var(--accent)}
-  body.editing [contenteditable="true"]{
-    outline:1px dashed var(--accent);outline-offset:3px;border-radius:4px;
-  }
-  .edithint{
-    position:fixed;bottom:24px;left:20px;z-index:20;
-    font-family:'IBM Plex Mono',monospace;font-size:11.5px;
-    color:#fff;background:var(--accent);border-radius:8px;
-    padding:8px 13px;display:none;max-width:250px;line-height:1.45;
-  }
-  body.editing .edithint{display:block}
-
   .reveal{opacity:0;transform:translateY(14px);transition:opacity .5s ease,transform .5s ease}
   .reveal.in{opacity:1;transform:none}
 
@@ -260,7 +235,7 @@
   }
   @media print{
     .job-body{max-height:none!important}
-    .toggle,.topbar,.editbar,.edithint{display:none!important}
+    .toggle,.topbar{display:none!important}
     body{background:#fff}
     .job,.metric,.strength{break-inside:avoid}
   }
@@ -336,7 +311,7 @@
     <div class="job open">
       <div class="job-head" role="button" tabindex="0" aria-expanded="true">
         <span class="toggle">+</span>
-        <h3>Head of Strategy &amp; Operations <em>· The Rue Coffee</em></h3>
+        <h3>Founder | Strategy &amp; Operations <em>· The Rue Coffee</em></h3>
         <span class="job-meta">Apr 2024 - Jun 2026 · Cairo</span>
       </div>
       <div class="job-body">
@@ -380,6 +355,20 @@
   </section>
 
   <section class="reveal">
+    <div class="sec-label">projects</div>
+    <div class="job open" style="cursor:default">
+      <div class="job-body" style="max-height:none">
+        <ul>
+          <li><b>AI Design Consultant</b> - mobile lead-capture tool generating personalized design briefs, connected to WhatsApp and Google Sheets; live and client-facing.</li>
+          <li><b>Leasing Team Dashboard</b> - internal pipeline and task tracker with logins and real-time cross-device sync.</li>
+          <li><b>Studio Ledger</b> - installable revenue and expense tracker for small businesses.</li>
+          <li><b>IronLog</b> - mobile fitness tracker with search, timers, and persistent history.</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="reveal">
     <div class="sec-label">education &amp; certifications</div>
     <div class="edu">
       <div class="edu-row">
@@ -413,34 +402,10 @@
 </div>
 
 
-<div class="edithint">Edit mode on. Tap any text to change it, then tap Done. IMPORTANT: changes live in this preview only and are lost on reload. Send Claude your final wording to save it permanently.</div>
-<div class="editbar">
-  <button class="editbtn" id="editToggle">✎ Edit text</button>
-</div>
-
 <script>
-  // edit mode
-  const editToggle = document.getElementById('editToggle');
-  const editTargets = 'h1,.tagline,.sec-title,.profile p,.strength,.job-head h3,.job-meta,.job-body ul,.edu-row div,.pill,.metric span';
-  editToggle.addEventListener('click', () => {
-    const editing = document.body.classList.toggle('editing');
-    editToggle.classList.toggle('active', editing);
-    editToggle.textContent = editing ? '✓ Done editing' : '✎ Edit text';
-    document.querySelectorAll(editTargets).forEach(el => {
-      el.contentEditable = editing;
-    });
-    if (editing) {
-      document.querySelectorAll('.job').forEach(j => {
-        j.classList.add('open');
-        j.querySelector('.job-head').setAttribute('aria-expanded','true');
-      });
-    }
-  });
-
   // accordion
   document.querySelectorAll('.job-head').forEach(btn => {
     btn.addEventListener('click', (e) => {
-      if (document.body.classList.contains('editing')) return;
       const job = btn.parentElement;
       const open = job.classList.toggle('open');
       btn.setAttribute('aria-expanded', open);
